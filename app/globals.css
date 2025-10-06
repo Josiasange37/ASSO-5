@@ -181,8 +181,3 @@
       );
   }
 }
-
-/* Hide v0 attribution button */
-div[id*="v0-built-with-button"] {
-  display: none !important;
-}

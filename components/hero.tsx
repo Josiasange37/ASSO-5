@@ -1,76 +1,94 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { useState, useEffect } from "react"
-import { ScrollReveal } from "@/components/scroll-reveal"
+import { useEffect, useState } from "react"
 
 export function Hero() {
-  const [displayedText, setDisplayedText] = useState("")
-  const fullText = "MON GARS SUR POUR MES ACHATS"
-  const [hasTyped, setHasTyped] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   useEffect(() => {
-    if (hasTyped) return
+    const timer = setTimeout(() => setIsVisible(true), 100)
+    return () => clearTimeout(timer)
+  }, [])
 
-    let currentIndex = 0
-    const typingInterval = setInterval(() => {
-      if (currentIndex <= fullText.length) {
-        setDisplayedText(fullText.slice(0, currentIndex))
-        currentIndex++
-      } else {
-        clearInterval(typingInterval)
-        setHasTyped(true)
-      }
-    }, 80)
-
-    return () => clearInterval(typingInterval)
-  }, [hasTyped])
+  const handleImageLoad = () => {
+    setImageLoaded(true)
+  }
 
   return (
-    <section className="bg-[#f8f4e3] african-pattern py-8 md:py-12">
-      <div className="container mx-auto px-4">
-        <ScrollReveal direction="fade">
-          <div className="relative max-w-5xl mx-auto rounded-lg overflow-hidden">
-            <div className="relative h-[400px] md:h-[500px] flex">
-              {/* Left image - Woman in purple */}
-              <div className="w-1/2 relative">
-                <img
-                  src="/smiling-african-woman-in-purple-traditional-geomet.jpg"
-                  alt="Femme africaine en tenue traditionnelle violette"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+    <section className="relative w-full h-screen min-h-[500px] sm:min-h-[600px] lg:min-h-[700px] overflow-hidden bg-gradient-to-br from-purple-100 to-purple-200">
+      {/* High-quality responsive background image with zoom-out effect */}
+      <div className="absolute inset-0 w-full h-full">
+        <picture>
+          {/* Format WebP pour une meilleure compression */}
+          <source 
+            srcSet="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?format=webp&quality=95&width=1920 1920w,
+                    https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?format=webp&quality=90&width=1440 1440w,
+                    https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?format=webp&quality=85&width=1024 1024w,
+                    https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?format=webp&quality=80&width=768 768w"
+            sizes="100vw"
+            type="image/webp" 
+          />
+          
+          {/* Fallback PNG haute qualité */}
+          <img
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?quality=95&width=1920"
+            srcSet="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?quality=95&width=1920 1920w,
+                    https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?quality=90&width=1440 1440w,
+                    https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?quality=85&width=1024 1024w,
+                    https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Generated%20Image%20October%2006%2C%202025%20-%2010_58AM-xQXYzhRuAIDCk3xuhF7ONZGm16qzoG.png?quality=80&width=768 768w"
+            sizes="100vw"
+            alt="Boutique ASSO avec clientes africaines - Marketplace de mode authentique"
+            className="w-full h-full object-cover object-center 
+                       scale-105 sm:scale-102 md:scale-100 lg:scale-100 xl:scale-100
+                       transition-all duration-500 ease-out
+                       filter brightness-105 contrast-105 saturate-110"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            onLoad={handleImageLoad}
+            onError={() => setImageLoaded(true)}
+          />
+        </picture>
+      </div>
 
-              {/* Right image - Man in green */}
-              <div className="w-1/2 relative">
-                <img
-                  src="/african-man-in-green-geometric-patterned-tradition.jpg"
-                  alt="Homme africain en tenue traditionnelle verte"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+      {/* Enhanced gradient overlay for better text readability and depth */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
 
-              <div className="absolute inset-0 bg-black/30" />
+      {/* Call-to-action box with improved responsive positioning */}
+      <div
+        className={`absolute left-4 sm:left-6 md:left-8 lg:left-12 xl:left-16 
+          bottom-8 sm:bottom-12 md:bottom-16 lg:bottom-20
+          bg-white/95 backdrop-blur-sm rounded-2xl 
+          p-4 sm:p-5 md:p-6 lg:p-7
+          shadow-2xl 
+          w-[calc(100%-2rem)] sm:w-[calc(100%-3rem)] md:max-w-sm lg:max-w-md xl:max-w-lg
+          transition-all duration-1000 ease-out ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
+        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 md:mb-5 leading-tight">
+          Tu veux faire ton business avec style ?
+        </h1>
 
-              {/* Text overlay centered across both images */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] tracking-tight">
-                  {displayedText}
-                  <span
-                    className="inline-block w-1 h-8 md:h-12 lg:h-16 bg-white ml-1 animate-pulse"
-                    style={{ opacity: hasTyped ? 0 : 1 }}
-                  />
-                </h1>
-                <p className="text-lg md:text-xl lg:text-2xl text-white/95 mb-6 md:mb-8 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] font-medium max-w-3xl">
-                  Trouve ton style, vends ton drip, fais ton cash easy
-                </p>
-                <Button className="bg-[#4a1a4a] hover:bg-[#3a1438] text-white px-6 md:px-8 py-4 md:py-6 text-base md:text-lg font-medium rounded-md shadow-lg">
-                  DÉCOUVRIR
-                </Button>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
+        <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-5 md:mb-6 leading-relaxed">
+          Transforme ton style en cash et découvre des pièces uniques
+        </p>
+
+        <Button className="w-full bg-[#4a1a4a] hover:bg-[#6b2a6b] text-white px-5 py-3 sm:py-4 md:py-4 text-sm sm:text-base font-semibold rounded-lg shadow-md mb-3 sm:mb-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+          Commencer à vendre
+        </Button>
+
+        <button className="w-full text-[#4a1a4a] hover:text-[#6b2a6b] font-medium text-xs sm:text-sm md:text-base transition-colors duration-300 hover:underline">
+          Découvrir comment ça marche
+        </button>
+      </div>
+
+      {/* Mobile-specific content positioning indicator */}
+      <div className="absolute top-20 sm:top-24 left-1/2 -translate-x-1/2 md:hidden">
+        <div className="w-1 h-8 bg-white/30 rounded-full animate-pulse"></div>
       </div>
     </section>
   )

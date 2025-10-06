@@ -175,8 +175,8 @@ export function Header() {
 
   return (
     <>
-      <header className="w-full fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
-        <div className="border-b border-gray-200">
+      <header className="w-full fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-300">
+        <div className="border-b border-gray-200/50">
           <div className="container mx-auto px-4">
             <div className="flex h-16 items-center justify-between gap-4">
               <div className="flex items-center gap-4">
@@ -302,40 +302,75 @@ export function Header() {
             </div>
           </div>
         </div>
-        <div className="bg-[#4a1a4a] border-b border-[#3d1540] relative hidden md:block">
+        {/* Vinted-style navigation bar */}
+        <div className="bg-[#4a1a4a] relative hidden md:block">
           <div className="container mx-auto px-4">
-            <nav className="flex flex-row h-12 items-center justify-center gap-6">
-              {navItems.map((item) => (
-                <div
-                  key={item}
-                  className="relative"
-                  onMouseEnter={() => setActiveDropdown(item)}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  <button className="text-sm font-medium text-white hover:text-gray-200 whitespace-nowrap h-12 flex items-center">
-                    {item}
-                  </button>
-                  {dropdownMenus[item] && activeDropdown === item && (
-                    <div className="absolute top-full left-0 bg-white shadow-lg rounded-b-md min-w-[200px] py-2 z-50">
-                      {dropdownMenus[item].map((subItem) => {
-                        const Icon = subItem.icon
-                        return (
-                          <button
-                            key={subItem.label}
-                            onClick={() => {
-                              setActiveDropdown(null)
-                            }}
-                            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 text-left"
+            <nav className="flex items-center justify-center h-12">
+              <div className="flex items-center space-x-6 lg:space-x-8">
+                {navItems.map((item, index) => {
+                  // Logique de positionnement intelligent
+                  const isFirstItems = index < 3
+                  const isLastItems = index >= navItems.length - 3
+                  
+                  let positionClasses = "left-1/2 transform -translate-x-1/2" // Position par défaut (centrée)
+                  
+                  if (isFirstItems) {
+                    positionClasses = "left-0" // Aligné à gauche pour les premiers items
+                  } else if (isLastItems) {
+                    positionClasses = "right-0" // Aligné à droite pour les derniers items
+                  }
+
+                  return (
+                    <div
+                      key={item}
+                      className="relative group"
+                      onMouseEnter={() => setActiveDropdown(item)}
+                      onMouseLeave={() => setActiveDropdown(null)}
+                    >
+                      <button className="text-sm font-medium text-white hover:text-white/80 whitespace-nowrap h-12 flex items-center px-2 lg:px-3 py-2 rounded-md transition-all duration-200 hover:bg-white/10">
+                        {item}
+                      </button>
+                      {dropdownMenus[item] && activeDropdown === item && (
+                        <div className={`absolute top-full ${positionClasses} mt-2 bg-white shadow-2xl rounded-xl border border-gray-200 w-[300px] lg:w-[320px] xl:w-[400px] py-4 z-50 animate-in fade-in-0 slide-in-from-top-2 duration-300`}>
+                        {/* Header du dropdown */}
+                        <div className="px-5 pb-3 border-b border-gray-100">
+                          <h3 className="text-base font-semibold text-[#4a1a4a] capitalize">{item}</h3>
+                        </div>
+                        
+                        {/* Grid des items */}
+                        <div className="grid grid-cols-2 gap-1 px-3 pt-3">
+                          {dropdownMenus[item].map((subItem) => {
+                            const Icon = subItem.icon
+                            return (
+                              <button
+                                key={subItem.label}
+                                onClick={() => {
+                                  setActiveDropdown(null)
+                                }}
+                                className="w-full flex flex-col items-center gap-2 px-3 py-4 text-sm text-gray-700 hover:bg-[#4a1a4a]/8 hover:text-[#4a1a4a] rounded-lg transition-all duration-200 group/item"
+                              >
+                                <Icon className="h-6 w-6 text-[#4a1a4a] group-hover/item:scale-110 transition-transform duration-200" />
+                                <span className="font-medium text-center leading-tight">{subItem.label}</span>
+                              </button>
+                            )
+                          })}
+                        </div>
+                        
+                        {/* Footer avec "Voir tout" */}
+                        <div className="px-5 pt-3 border-t border-gray-100 mt-3">
+                          <button 
+                            onClick={() => setActiveDropdown(null)}
+                            className="w-full text-center py-2 text-sm font-semibold text-[#4a1a4a] hover:text-[#6b2a6b] transition-colors duration-200"
                           >
-                            <Icon className="h-5 w-5 text-[#4a1a4a]" />
-                            <span>{subItem.label}</span>
+                            Voir tout dans {item}
                           </button>
-                        )
-                      })}
+                        </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
+                  )
+                })}
+              </div>
             </nav>
           </div>
         </div>
